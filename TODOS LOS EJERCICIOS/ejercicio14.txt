@@ -1,0 +1,44 @@
+.Const
+
+.Data?
+
+totaltex Byte 5 Dup(?)
+
+.Data
+	;Variables de peso
+	peso1 DWord 70
+	peso2 DWord 50
+	peso3 DWord 80
+	total DWord 0 ;Total para guardar el peso
+	cargaexacta Byte "Carga de calibración exacta detectada", 0
+	cargano Byte "Carga estandar de operación", 0
+	final Byte "Puertas Cerrandose", 0
+	Titulo Byte "Eercicio 14", 0
+
+.Code
+
+start:
+	;Mueve el peso 1 a Eax y suma el resto
+	Mov Eax, peso1
+	Add Eax, peso2
+	Add Eax, peso3
+	Mov total, Eax ;Mueve el valor de Eax al total
+	Cmp total, 210 ;Compara el total a 210
+	Je ejecutar ;Salta si es igual a la función ejecutar
+	;Mensaje y muestra del total del peso en caso de no ser igual a 210
+	Invoke MessageBox, 0, Addr cargano, Addr Titulo, MB_OK
+	Invoke dwtoa, total, Addr totaltex
+	Invoke MessageBox, 0, Addr totaltex, Addr Titulo, MB_OK
+	Jmp Salida ;Salto a salida
+
+ejecutar: ;Función del mensaje en caso de ser un peso total de 210
+	Invoke MessageBox, 0, Addr cargaexacta, Addr Titulo, MB_OK
+
+Salida: ;Salida
+	Invoke MessageBox, 0, Addr final, Addr Titulo, MB_OK
+
+
+End start
+
+
+

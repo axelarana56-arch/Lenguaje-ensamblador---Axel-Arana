@@ -1,0 +1,50 @@
+.Const
+
+.Data?
+
+totaltex Byte 5 Dup (?)
+
+.Data
+;Delcaracion de tramos y su cantidad de pasos
+T1 DWord 200
+T2 DWord 300
+T3 DWord 300
+T4 DWord 200
+T5 DWord 100
+total DWord 0
+;Declaracion de variables de texto
+Meta Byte "Meta diaria superada con bonus", 0
+Objetivo Byte "Objetivo basico alcanzado", 0
+cierre Byte "Sincronizando reloj", 0
+Titulo Byte "Pasos", 0
+
+.Code
+
+start:
+;mueve y suma los pasos de los tramos
+Mov Eax, T1
+Add Eax, T2
+Add Eax, T3
+Add Eax, T4
+Add Eax, T5
+Mov total, Eax
+Cmp total, 1000 ;Compara la suma de los tramos a 1000
+Jg Cumplida ;salta si los pasos son mayores a 1000 a la función "Cumplida"
+;Serie de mensajes y muestra de total si no se cumple la meta
+Invoke dwtoa, total, Addr totaltex
+Invoke MessageBox, 0, Addr Objetivo, Addr Titulo, MB_OK
+Invoke MessageBox, 0, Addr totaltex, Addr Titulo, MB_OK
+Jmp Salida
+Cumplida: ;Función salida que muestra la meta y agrega el bonus de pasos
+Add total, 100
+Invoke dwtoa, total, Addr totaltex
+Invoke MessageBox, 0, Addr Meta, Addr Titulo, MB_OK
+Invoke MessageBox, 0, Addr totaltex, Addr Titulo, MB_OK
+Salida:
+Invoke MessageBox, 0, Addr cierre, Addr Titulo, MB_OK
+
+End start
+
+
+
+

@@ -1,0 +1,29 @@
+.Const
+
+.Data?
+	Restex Byte 5 Dup(?)
+.Data
+	A DWord 05H ;A = 5
+	B DWord 02H ;B = 2
+	Cc DWord 0FH ;C = 15
+	D DWord 03H ;D = 3
+	Res DWord 0H ;variable donde se guardará el resultado
+	Titulo Byte "ecuacion", 0
+
+.Code
+
+start:
+	;Secuencia que hará ((A*B) + C) - D
+	Mov Eax, A
+	IMul Eax, B
+	Add Eax, Cc
+	Sub Eax, D
+	Mov Res, Eax
+
+	Invoke dwtoa, Res, Addr Restex ;Convierte el valor de resultado a texto
+	Invoke MessageBox, 0, Addr Restex, Addr Titulo, MB_OK ;Muestra el resultado
+	Invoke ExitProcess, 0
+
+End start
+
+

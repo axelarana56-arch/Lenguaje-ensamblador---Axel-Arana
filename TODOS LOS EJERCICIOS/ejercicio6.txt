@@ -1,0 +1,25 @@
+.Const
+
+.Data?
+	Resultadoentex3 Byte 5 Dup(?) ;VARIABLE PARA EL RESULTADO A texto
+.Data
+	Operador DWord 0AH ;operador con valor de 10
+	Resultado3 DWord 0H ;variable que guarda resultado
+	Titulo Byte "multiplicacion", 0
+.Code
+
+start:
+
+	Mov Eax, 2 ;le da valor de 2 a Eax
+	Mov Ebx, Operador ;le da el valor del operador a Ebx (diferente a eax)
+	Sub Ebx, 3 ;le resta 3 a Ebx
+	IMul Eax, Ebx ;Multiplica Eax por Ebx y se queda en Eax
+	Mov Resultado3, Eax ;Mueve Eax al resultado
+
+	Invoke dwtoa, Resultado3, Addr Resultadoentex3 ;Convierte a texto el resultado
+	Invoke MessageBox, 0, Addr Resultadoentex3, Addr Titulo, MB_OK ;Muestra el resultado
+
+	Invoke ExitProcess, 0
+
+End start
+

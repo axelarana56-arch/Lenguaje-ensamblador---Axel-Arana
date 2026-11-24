@@ -1,0 +1,38 @@
+.Const
+
+.Data?
+Totalentex Byte 5 Dup(?)
+.Data
+
+Muestra DWord 50 ;Valor de la muestra
+Total DWord 0
+dif Byte "Voltaje fuera de norma", 0 ;variable para cuando el valor es diferente a lo requerido
+igual Byte "Voltaje Optimo, balance de energia correcto", 0 ;variable cuando el valor es igual a 200
+Titulo Byte "Comparador de voltaje", 0
+res Byte "Registro guardado en memoria", 0
+
+.Code
+
+start:
+
+Mov Eax, Muestra
+IMul Eax, 4 ;Multiplica por 4 la muestra
+Cmp Eax, 200 ;compara a 200
+Je igual ;"Jump if equal", brinca a la función igual si las variables comparadas son iguales
+;Muestra el total y el mensaje de que es diferente
+Invoke MessageBox, 0, Addr dif, Addr Titulo, MB_OK
+Mov Total, Eax
+Invoke dwtoa, Total, Addr Totalentex
+Invoke MessageBox, 0, Addr Totalentex, Addr Titulo, MB_OK
+Je Salida ;brinca a salida
+
+Igual: ;función en caso de ser igual, muestra el mensaje de que es óptimo el voltaje
+Invoke MessageBox, 0, Addr igual, Addr Titulo, MB_OK
+
+Salida:
+Invoke MessageBox, 0, Addr res, Addr Titulo, MB_OK
+
+End start
+
+
+

@@ -1,0 +1,41 @@
+.Const
+
+.Data?
+	;Declaración de variable que no tiene valor asignado
+	resentex Byte 5 Dup(?)
+
+.Data
+	;Declaración de variables
+	Producto DWord 20
+	Res DWord 0H
+	adios Byte "Vuelva pronto", 0
+	descuento Byte "Hay descuento", 0
+	no_descuento Byte "No hay descuento", 0
+	Titulo Byte "Mayor a 60?", 0
+
+.Code
+
+start:
+
+	Mov Eax, Producto
+	IMul Eax, 4 ;Multiplica el precio del producto por 4
+	Cmp Eax, 60 ;Compara el producto de la multiplicación con 60
+	Jl ejecuta ;Brinca si el producto es menor
+	;Se aplica descuento restando 10 al total
+	Sub Eax, 10
+	Mov Res, Eax
+	Invoke dwtoa, Res, Addr resentex
+	Invoke MessageBox, 0, Addr descuento, Addr Titulo, MB_OK
+	Invoke MessageBox, 0, Addr resentex, Addr Titulo, MB_OK
+	Jmp salida ;Brinca a salida
+	;no se aplica descuento y el total no cambia
+ejecuta:
+	Invoke MessageBox, 0, Addr no_descuento, Addr Titulo, MB_OK
+
+salida:
+	Invoke MessageBox, 0, Addr adios, Addr Titulo, MB_OK
+	Invoke ExitProcess, 0
+
+End start
+
+

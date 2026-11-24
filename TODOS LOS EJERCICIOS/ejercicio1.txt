@@ -1,0 +1,16 @@
+.Const
+
+.Data?
+
+.Data
+Mensaje Byte "Hola Axel", 0 ;declara la variable mensaje y le da el texto Hola Axel
+
+
+.Code
+start:
+Invoke MessageBox, 0, Addr Mensaje, NULL, MB_OK ;Crea una caja de texto con la variable mensaje
+
+Invoke ExitProcess, 0
+
+
+End start

@@ -1,0 +1,42 @@
+.Const
+
+.Data?
+
+potenciatex Byte 5 Dup (?)
+
+.Data
+;Declaración de gastos por sectores
+gasto_sector1 DWord 10
+gasto_sector2 DWord 15
+gasto_sector3 DWord 10
+consumo DWord 0 ;Variable para consumo total
+potencia DWord 100 ;Porcentaje de potencia
+;Variables de texto
+menor Byte "Consumo eficiente: modo crucero activo", 0
+mayor Byte "Consumo excesivo: reduciendo potencia de impulso", 0
+cierre Byte "Telemetria transmitida", 0
+porcentaje Byte "Porcentaje de potencia", 0
+Titulo Byte "Telemetria", 0
+
+.Code
+
+start:
+;Movimiento y suma del gasto de cada sector
+Mov Eax, gasto_sector1
+Add Eax, gasto_sector2
+Add Eax, gasto_sector3
+Mov consumo, Eax
+Cmp consumo, 30 ;Compara a 30 el consumo total
+Jg ejecutar ;Brinca a ejecutar si el consumo es mayor
+Invoke MessageBox, 0, Addr menor, Addr Titulo, MB_OK ;Mensaje si el consumo es menor o igual a 30
+Jmp salida ;salta a salida
+ejecutar: ;función si el consumo es mayor a 30
+Invoke MessageBox, 0, Addr mayor, Addr Titulo, MB_OK
+Sub potencia, 10 ;resta 10 al porcentaje de potencia
+Invoke dwtoa, potencia, Addr potenciatex
+Invoke MessageBox, 0, Addr potenciatex, Addr porcentaje, MB_OK ;Muestra la potencia
+salida:
+Invoke MessageBox, 0, Addr cierre, Addr Titulo, MB_OK ;Mensaje de cierre
+
+End start
+

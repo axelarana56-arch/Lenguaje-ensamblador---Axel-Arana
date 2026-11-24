@@ -1,0 +1,50 @@
+.Const
+
+.Data?
+
+	Restex Byte 5 Dup(?)
+
+.Data
+
+	CantA DWord 04H ;Cantidad comprada del producto A
+	PreA DWord 019H ;Precio A
+
+	CantB DWord 02H ;Cantidad comprada del producto B
+	PreB DWord 03CH ;PrecioB
+
+	CantC DWord 05H ;Cantidad comprada del producto C
+	PreC DWord 0FH ;PrecioC
+
+	Res DWord 0H
+
+	Titulo Byte "Calculo de productos", 0
+
+.Code
+
+start:
+
+	Mov Ebx, 0 ;Declara y da valor de 0 a Ebx
+
+	Mov Eax, PreA ;Mueve el precio de A a Eax
+	IMul Eax, CantA ;Multiplica el precio de A por la cantidad comprada
+	Mov Ebx, Eax ;Mueve a Ebx el valor en Eax
+
+	Mov Eax, PreB ;Mueve el precio de B a Eax
+	IMul Eax, CantB ;Multiplica el precio de B por la cantidad comprada
+	Add Ebx, Eax
+
+	Mov Eax, PreC ;Mueve el precio de C a Eax
+	IMul Eax, CantC ;Multiplica el precio de C por la cantidad comprada
+	Add Ebx, Eax
+
+	Mov Res, Ebx
+
+	Invoke dwtoa, Res, Addr Restex
+	Invoke MessageBox, 0, Addr Restex, Addr Titulo, MB_OK
+
+	Invoke ExitProcess, 0
+
+End start
+
+
+

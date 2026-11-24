@@ -1,0 +1,39 @@
+.Const
+
+.Data?
+totaltex Byte 5 Dup(?)
+.Data
+;Paquetes y sus tamaños en bits
+tam_paquete1 DWord 16
+tam_paquete2 DWord 16
+tam_paquete3 DWord 16
+tam_paquete4 DWord 32
+total DWord 0 ;Variable para el total
+;Variables de texto
+seguro Byte "Buffer seguro: listo para procesar", 0
+desborde Byte "Riesgo de desbordamiento: descartando paquete", 0
+cierre Byte "Canal libre", 0
+Titulo Byte "Buffer", 0
+
+.Code
+
+start:
+;Mueve y suma los paquetes de bits
+Mov Eax, tam_paquete1
+Add Eax, tam_paquete2
+Add Eax, tam_paquete3
+Add Eax, tam_paquete4
+Mov total, Eax
+Cmp total, 64 ;Compara el total a 64 bits
+Jle ejecuta ;Brinca si es menor o igual a ejecuta
+Invoke MessageBox, 0, Addr desborde, Addr Titulo, MB_OK ;Mnesaje si es mayor a 64 advirtiendo de desborde
+Sub total, 16 ;Resta al total 16 Bits
+Invoke dwtoa, total, Addr totaltex
+Invoke MessageBox, 0, Addr totaltex, Addr Titulo, MB_OK
+Jmp salida ;Brinca a salida
+ejecuta: ;Función ejecuta, que muestra que los bits estan en un rango seguro
+Invoke MessageBox, 0, Addr seguro, Addr Titulo, MB_OK
+salida: ;Función salida
+Invoke MessageBox, 0, Addr cierre, Addr Titulo, MB_OK
+
+End start

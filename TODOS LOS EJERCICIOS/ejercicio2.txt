@@ -1,0 +1,21 @@
+.Const
+
+.Data?
+	Resultadotexto Byte 5 Dup(?)
+.Data
+	Numerouno DWord 0AH ;declara variables numéricas y les da valores en hexadecimal (10)
+	Numerodos DWord 0FH ;(15)
+	Resultado DWord 0H ;(0)
+
+.Code
+
+start:
+	Mov Eax, Numerouno ;"mueve" el valor del numero 1 a Eax
+	Add Eax, Numerodos ;suma a Eax el valor del numero 2
+
+	Mov Resultado, Eax ; mueve el valor de Eax a la variable Resultado
+
+	Invoke dwtoa, Resultado, Addr Resultadotexto ;Convierte el numero de resultado a texto y lo guarda en otra variable
+	Invoke MessageBox, 0, Addr Resultadotexto, NULL, MB_OK ;muestra en un MessageBox el resultado ya convertido en texto
+	Invoke ExitProcess, 0
+End start

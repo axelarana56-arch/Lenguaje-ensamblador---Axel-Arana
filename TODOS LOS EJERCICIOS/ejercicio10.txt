@@ -1,0 +1,35 @@
+.Const
+
+.Data?
+
+.Data
+	;Declaración de variables
+	Edad DWord 19
+	es_mayor_de_edad Byte "Si puede pasar", 0
+	es_menor_de_edad Byte "No puede pasar", 0
+	adios Byte "Adios", 0
+
+	Titulo Byte "comparador", 0
+
+.Code
+
+start:
+
+	Mov Eax, Edad
+	Cmp Eax, 18 ;Compara Eax (edad) con 18
+	Jl ejecuta ;"Jump if less" hace que si edad es menor a 18, "brinca" a la función "ejecuta"
+
+	Invoke MessageBox, 0, Addr es_mayor_de_edad, Addr Titulo, MB_OK
+	Jmp salida ;Dado que no se requiere que pase por la funcion ejecuta en caso de ser mayor o igual a 18, brinca a salida
+
+ejecuta: ;función ejecuta
+	Invoke MessageBox, 0, Addr es_menor_de_edad, Addr Titulo, MB_OK
+
+salida: ;función salida
+	Invoke MessageBox, 0, Addr adios, Addr Titulo, MB_OK
+	Invoke ExitProcess, 0
+End start
+
+
+
+

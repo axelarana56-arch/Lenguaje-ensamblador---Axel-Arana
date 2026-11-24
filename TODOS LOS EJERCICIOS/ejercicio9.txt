@@ -1,0 +1,43 @@
+.Const
+
+.Data?
+	;variables en las que los resultados numéricos se harán texto
+	Areatex Byte 5 Dup(?)
+	PerTex Byte 5 Dup(?)
+
+
+.Data
+	;Declaracion de variables
+	Base DWord 05H ;
+	Altura DWord 0AH
+
+	Perimetro DWord 0H
+	Area DWord 0H
+
+	Titulo Byte "Rectangulo", 0
+
+.Code
+
+start:
+	;Operaciones para calcular area de rectangulo
+	Mov Eax, Base
+	IMul Eax, Altura
+	Mov Area, Eax
+	;operaciones para calcular el perimetro del rectangulo
+	Mov Eax, Base
+	Add Eax, Altura
+	IMul Eax, 2
+	Mov Perimetro, Eax
+
+	Invoke dwtoa, Area, Addr Areatex
+	Invoke MessageBox, 0, Addr Areatex, Addr Titulo, MB_OK
+
+	Invoke dwtoa, Perimetro, Addr PerTex
+	Invoke MessageBox, 0, Addr PerTex, Addr Titulo, MB_OK
+
+	Invoke ExitProcess, 0
+
+End start
+
+
+

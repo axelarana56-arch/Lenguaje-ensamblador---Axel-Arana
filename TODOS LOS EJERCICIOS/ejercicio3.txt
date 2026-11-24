@@ -1,0 +1,47 @@
+.Const
+
+.Data?
+	resultadotexto Byte 5 Dup(?)
+
+.Data
+	Comment *
+	Creacion de variables y asignacion de valores
+	*
+	numerouno DWord 04H
+	numerodos DWord 02H
+	numerotres DWord 0CH
+	numerocuatro DWord 0FH
+
+	resultado DWord 0H
+
+	Titulo Byte "suma de 4 numeros", 0
+
+.Code
+
+start:
+Comment*
+	mueve Al espacio Eax el numero 1, luego LE suma a esa posición el resto
+*
+	Mov Eax, numerouno
+	Add Eax, numerodos
+	Add Eax, numerotres
+	Add Eax, numerocuatro
+Comment*
+	mueve Eax Al resultado, Es decir, la suma
+	*
+	Mov resultado, Eax
+Comment*
+	convierte el numero a numero en texto
+	 desde resultado a resultado texto
+*
+	Invoke dwtoa, resultado, Addr resultadotexto
+	Comment*
+		crea una caja de texto que enseñe 
+		resultado texto, tambien LE da de
+		 Titulo la variable Titulo creada 
+		 arriba
+	*
+	Invoke MessageBox, 0, Addr resultadotexto, Addr Titulo, MB_OK
+	Invoke ExitProcess, 0
+
+End start

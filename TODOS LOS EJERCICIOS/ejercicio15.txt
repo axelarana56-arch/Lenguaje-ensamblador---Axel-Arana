@@ -1,0 +1,36 @@
+.Const
+
+.Data?
+
+.Data
+;Declaración de bloques en binario (0 si todo en orden, 1 si algo falla)
+B1 DWord 0
+B2 DWord 0
+B3 DWord 1
+Fallo DWord 0 ;Fallo en binario (1 si hay, 0 si no) puesto en "no" por defecto
+Alerta Byte "Alerta: actividad sospechosa", 0
+Sin Byte "Acceso sin incidentes", 0
+Final Byte "Fin de auditoria", 0
+Titulo Byte "Auditoria", 0
+
+.Code
+
+start:
+;Movimiento a Eax y suma de los bloques
+Mov Eax, B1
+Add Eax, B2
+Add Eax, B3
+Mov Fallo, Eax ;Mueve a Fallo Eax
+Cmp Fallo, 0 ;Compara a 0 el valor en fallo
+Jne sospecha ;"Jump if not equal", salta si las variables comparadas no son iguales
+Invoke MessageBox, 0, Addr Sin, Addr Titulo, MB_OK ;Mensaje si no hay fallo
+Jmp Salida ;Salta a salida
+sospecha: ;Funcion si el fallo es diferente a 0
+Invoke MessageBox, 0, Addr Alerta, Addr Titulo, MB_OK
+Salida: ;Funcion salida
+Invoke MessageBox, 0, Addr Final, Addr Titulo, MB_OK
+
+End start
+
+
+

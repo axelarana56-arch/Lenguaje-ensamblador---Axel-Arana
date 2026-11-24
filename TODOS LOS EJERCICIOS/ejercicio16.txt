@@ -1,0 +1,38 @@
+.Const
+
+.Data?
+
+Indicetex Byte 5 Dup (?)
+
+.Data
+;Declaración de variables
+acel DWord 22
+Indice DWord 0
+Regula Byte "Regulando flujo de combustible", 0
+Exacto Byte "Velocidad de crucero estabilizada", 0
+cierre Byte "Ciclo de control terminado", 0
+Titulo Byte "Ciclo de control", 0
+
+.Code
+
+start:
+
+Mov Eax, acel
+IMul Eax, 5 ;Multiplica por 5 la variable acel
+Mov Indice, Eax ;Mueve el resultado a Indice
+Control: ;Ciclo de control
+Cmp Indice, 100 ;Compara indice a 100
+Jle Estable ;"Jump less equal", brinca a estable si da menor o igual a 100
+Invoke MessageBox, 0, Addr Regula, Addr Titulo, MB_OK ;Mensaje de regulación
+Sub Indice, 5 ;regulacon restando 5 a indice
+Jmp Control ;Regresa al principio de la función de control
+Estable: ;función para una vez el sistema sea estable
+Invoke MessageBox, 0, Addr Exacto, Addr Titulo, MB_OK
+Invoke dwtoa, Indice, Addr Indicetex
+Invoke MessageBox, 0, Addr Indicetex, Addr Titulo, MB_OK
+Invoke MessageBox, 0, Addr cierre, Addr Titulo, MB_OK
+
+End start
+
+
+

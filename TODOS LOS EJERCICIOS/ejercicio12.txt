@@ -1,0 +1,43 @@
+.Const
+
+.Data?
+
+totalentex Byte 5 Dup(?)
+
+.Data
+;Variables de 3 golpes distintos
+Golpe1 DWord 10
+Golpe2 DWord 5
+Golpe3 DWord 30
+;Variable para la suma
+Total DWord 0
+;Variable de texto en el que la armadura sale intacta
+armadura1 Byte "Estado de armadura: intacta", 0
+;Varible para el caso en el que se supera la resistencia de golpes
+combate Byte "Estado de combate actualizado", 0
+Titulo Byte "Golpes a armadura", 0
+
+.Code
+
+;Suma de golpes
+Mov Eax, Golpe1
+Add Eax, Golpe2
+Add Eax, Golpe3
+Cmp Eax, 50 ;comparacion de suma a 60
+Jl Ejecuta ;jump if less a ejecuta
+
+Sub Eax, 10 ;resta 10 al estado de la armadura
+Mov Total, Eax ;mueve a total la suma en Eax
+Invoke dwtoa, Total, Addr totalentex
+Invoke MessageBox, 0, Addr totalentex, Addr Titulo, MB_OK ;Muestra el total de daño recibido
+Jl Salida
+
+Ejecuta:
+Invoke MessageBox, 0, Addr armadura1, Addr Titulo, MB_OK ;Muestra que la armadura sigue intacta
+Jl Salida
+
+Salida:
+Invoke MessageBox, 0, Addr combate, Addr Titulo, MB_OK ;Estado de combate actualizado
+End start
+
+

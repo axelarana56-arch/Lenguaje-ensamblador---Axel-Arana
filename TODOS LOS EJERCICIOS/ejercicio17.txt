@@ -1,0 +1,43 @@
+.Const
+
+.Data?
+
+temp Byte 5 Dup (?)
+
+.Data
+;Declaración de hilos y las cargas que llevan
+H1 DWord 20
+H2 DWord 30
+H3 DWord 20
+H4 DWord 20
+temp_subida DWord 0 ;Variable para la temperatura
+Peligro Byte "Peligro:refrigeracion liquida al maximo, ventilando...", 0
+Seguro Byte "Temperatura dentro del rango seguro", 0
+cierre Byte "Lectura del socket finalizada", 0
+Titulo Byte "Ventilacion", 0
+
+.Code
+
+start:
+;Mueve y suma Los hilos en Eax
+Mov Eax, H1
+Add Eax, H2
+Add Eax, H3
+Add Eax, H4
+Mov temp_subida, Eax ;Mueve el resultado en Eax a La variable de temperatura total
+Cmp temp_subida, 80 ;compara a 80 la temperatura
+Jg Mayor ;"Jump if greater", brinca si el valor comparado es mayor
+Invoke MessageBox, 0, Addr Seguro, Addr Titulo, MB_OK ;Mensaje de temperatura segura
+Jmp Salida ;Brinca a salida
+Mayor: ;función si es mayor
+Sub temp_subida, 15 ;Resta a la temperatura subida 15
+Invoke MessageBox, 0, Addr Peligro, Addr Titulo, MB_OK ;Mensaje de peligro
+Salida: ;Funcion de salida en la que muestra la temperatura actual
+Invoke dwtoa, temp_subida, Addr temp
+Invoke MessageBox, 0, Addr temp, Addr Titulo, MB_OK
+Invoke MessageBox, 0, Addr cierre, Addr Titulo, MB_OK
+
+End start
+
+
+
